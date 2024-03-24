@@ -49,10 +49,10 @@ with st.sidebar:
 
 # Fetch and display top 3 trends for the selected region
 if show_trends_button:
-    top_trends = get_top_trends(region)
-    if top_trends:
+    st.session_state.top_trends = get_top_trends(region)
+    if st.session_state.top_trends:
         st.write("Top 3 Trends:")
-        for trend in top_trends:
+        for trend in st.session_state.top_trends:
             st.write(f"- {trend}")
 
 # Generate social media posts for the selected platform
