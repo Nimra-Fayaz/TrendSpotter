@@ -56,10 +56,13 @@ if show_trends_button:
 
 # Generate social media posts for the selected platform
 if generate_post_button:
-    if top_trends:
-        posts = generate_social_media_post(top_trends, platform)
-        if posts:
-            st.write("Generated Posts:")
-            for index, post in enumerate(posts, start=1):
-                st.write(f"Post {index}:")
-                st.write(post)
+    if "top_trends" in locals():
+        if top_trends:
+            posts = generate_social_media_post(top_trends, platform)
+            if posts:
+                st.write("Generated Posts:")
+                for index, post in enumerate(posts, start=1):
+                    st.write(f"Post {index}:")
+                    st.write(post)
+    else:
+        st.warning("Please show trends first before generating posts.")
