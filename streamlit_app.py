@@ -15,13 +15,10 @@ def get_top_trends(region):
         prompt = f"Show top 3 trends in {region}"
         
         # Generate text using Gemini
-        top_trends = model.query(prompt, max_tokens=50, temperature=0.7)
+        top_trends = model.generate_text(prompt)
         
         # Extract top trends from the response
-        trends_list = top_trends['output'][0]['tokens']
-        
-        # Convert the tokens to a list of trends
-        trends = [' '.join(token['value'] for token in trend) for trend in trends_list]
+        trends = top_trends.split('\n')
         
         return trends
     except Exception as e:
@@ -35,12 +32,9 @@ def generate_social_media_post(trend, platform):
         prompt = f"Write an educational and attractive social media post about '{trend}' for {platform} using proper hashtags."
         
         # Generate text using Gemini
-        post = model.query(prompt, max_tokens=100, temperature=0.7)
+        post = model.generate_text(prompt)
         
-        # Extract the generated post from the response
-        post_text = post['output'][0]['text']
-        
-        return post_text
+        return post
     except Exception as e:
         st.error(f"Error generating social media post: {e}")
         return ""
