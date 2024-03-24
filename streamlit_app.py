@@ -10,20 +10,19 @@ model = genai.GenerativeModel('gemini-1.0-pro')
 
 # Function to fetch top 3 trends for the selected region using Gemini
 def get_top_trends(region):
-    try:
-        # Construct a prompt to fetch top trends for the selected region
-        prompt = f"Show top 3 trends in {region}"
-        
-        # Generate text using Gemini
-        trends = model.generate_content(prompt)
-        return trends
-        
-    except Exception as e:
-        st.error(f"Error fetching trends: {e}")
-        return []
+
+  prompt = f"Show top 3 trends in {region}, only the heading of the trend"
+  trends = model.generate_content(prompt)
+    
+  # Extract trends from response
+  trends_list = trends.split("\n")[:3]  
+
+  # Return trends for dropdown
+  return trends_list
+    
 
 # Function to generate social media post using Gemini
-def generate_social_media_post(trend, platform):
+def generate_social_media_post(trends, platform):
     try:
         # Construct a prompt to generate social media post for the selected trend and platform
         prompt = f"Write an educational and attractive social media post about '{trend}' for {platform} using proper hashtags."
@@ -42,7 +41,7 @@ st.title("Social Media Trends Dashboard")
 # Assuming the UI has a sidebar for filters
 with st.sidebar:
     st.title("Filters")
-    region = st.selectbox("Select Region", ["Worldwide", "United States", "United Kingdom", "India"])
+    region = st.selectbox("Select Region", ["Worldwide", "United States", "United Kingdom", "India", "Pakistan", "Canada", "Australia", "France", "Germany", "Russia"])
     show_trends_button = st.button("Show Trends")
 
 # Fetch and display top 3 trends for the selected region
