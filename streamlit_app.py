@@ -13,7 +13,7 @@ def get_top_trends(region):
     try:
         prompt = f"Show top 3 trends in {region} which people are searching for, get data from the google trends"
         response = model.generate_content(prompt)
-        top_trends = [trend["content"]["parts"][0]["text"] for trend in response.candidates]
+        top_trends = [trend.content.parts[0].text for trend in response.candidates]
         return top_trends
     except Exception as e:
         st.error(f"Error fetching trends: {e}")
@@ -26,7 +26,7 @@ def generate_social_media_post(trends, platform):
         for trend in trends:
             prompt = f"Write an educational and attractive social media post about '{trend}' individually for each trend for {platform} using proper hashtags."
             response = model(prompt)
-            post = response.candidates[0]["content"]["parts"][0]["text"]
+            post = response.candidates[0].content.parts[0].text
             posts.append(post)
         return posts
     except Exception as e:
