@@ -35,4 +35,8 @@ if show_trends_button:
         st.write("Top 3 Trends:")
         for trend in top_trends:
             st.write(f"- {trend}")
+
+# Dropdown for selecting social media platform
+platform = st.selectbox("Select Social Media Platform", ["X", "Instagram", "Facebook", "LinkedIn"])
+generate_post_button = st.button("Generate Post")
        
