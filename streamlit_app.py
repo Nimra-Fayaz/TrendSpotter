@@ -4,6 +4,7 @@ import google.generativeai as genai
 import streamlit as st
 import subprocess
 from pytrends.request import TrendReq
+from pytrends.exceptions import ResponseError
 
 # Variables for trends and platforms
 Trends = ['Trend 1', 'Trend 2', 'Trend 3']
@@ -11,29 +12,36 @@ Trend_values = [0, 0, 0]
 platforms_list = ["Twitter", "Facebook", "Instagram", "LinkedIn"]
 
 # Set up Google Generative AI client
-genai.configure(api_key="AIzaSyBZo_OCHYHslSXuwtaPNjLavGnfQaZ4kd0")
+genai.configure(api_key="YOUR_GOOGLE_API_KEY")  # Replace with your actual API key
 model = genai.GenerativeModel('gemini-1.0-pro-latest')
 
 # Set up Google Trends
 pytrend = TrendReq()
 
 # Get the available regions from Google Trends
-regions = pytrend.build_payload(kw_list=[], geo='').geo.tolist()
+try:
+    regions = pytrend.build_payload(kw_list=[], geo='').geo.tolist()
+except ResponseError as e:
+    st.error(f"Error fetching regions: {e}")
+    regions = []
 
 # Function to generate posts with hashtags
 def generate_posts(selected_trends, region, selected_platforms):
     for trend in selected_trends:
-        # Fetch the latest trend for the specified region
-        trend_payload = pytrend.trending_searches(pn=region.lower())
-        latest_trend = trend_payload.values[0][0]
+        try:
+            # Fetch the latest trend for the specified region
+            trend_payload = pytrend.trending_searches(pn=region.lower())
+            latest_trend = trend_payload.values[0][0]
 
-        for platform in selected_platforms:
-            # Generate a post based on the latest trend and platform
-            post_prompt = f"Write a social media post with relevant hashtags about the trending topic '{latest_trend}' for {platform}"
-            post_text = model.generate_text(post_prompt)
-            st.markdown(f"**{platform}**")
-            st.markdown(post_text)
-            st.markdown("---")
+            for platform in selected_platforms:
+                # Generate a post based on the latest trend and platform
+                post_prompt = f"Write a social media post with relevant hashtags about the trending topic '{latest_trend}' for {platform}"
+                post_text = model.generate_text(post_prompt)
+                st.markdown(f"**{platform}**")
+                st.markdown(post_text)
+                st.markdown("---")
+        except ResponseError as e:
+            st.error(f"Error generating posts: {e}")
 
 def for_each_platform(platforms_number):
     for idx, platform in enumerate(platforms_number):
@@ -50,11 +58,14 @@ def navigate_to_posts(selected_trends):
 
 # Function to fetch and display trends
 def show_trends(region):
-    trend_payload = pytrend.trending_searches(pn=region.lower())
-    trends = trend_payload.values[0]
-    st.write(f"Top Trending Topics in {region}:")
-    for trend in trends:
-        st.write(f"- {trend}")
+    try:
+        trend_payload = pytrend.trending_searches(pn=region.lower())
+        trends = trend_payload.values[0]
+        st.write(f"Top Trending Topics in {region}:")
+        for trend in trends:
+            st.write(f"- {trend}")
+    except ResponseError as e:
+        st.error(f"Error fetching trends: {e}")
 
 st.set_page_config(layout="wide")
 
