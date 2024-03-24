@@ -18,7 +18,7 @@ model = genai.GenerativeModel('gemini-1.0-pro-latest')
 pytrend = TrendReq()
 
 # Get the available regions from Google Trends
-regions = pytrend.build_payload(geo='')['geo'].unique().tolist()
+regions = pytrend.build_payload(kw_list=[], geo='').geo.tolist()
 
 # Function to generate posts with hashtags
 def generate_posts(selected_trends, region, selected_platforms):
