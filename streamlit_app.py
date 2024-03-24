@@ -27,6 +27,10 @@ with st.sidebar:
     st.title("Filters")
     region = st.selectbox("Select Region", ["Worldwide", "United States", "United Kingdom", "India", "Pakistan", "Canada", "Australia", "France", "Germany", "Russia"])
     show_trends_button = st.button("Show Trends")
+    
+    # Dropdown for selecting social media platform
+    platform = st.selectbox("Select Social Media Platform", ["X", "Instagram", "Facebook", "LinkedIn"])
+    generate_post_button = st.button("Generate Post")
 
 # Fetch and display top 3 trends for the selected region
 if show_trends_button:
@@ -36,7 +40,5 @@ if show_trends_button:
         for trend in top_trends:
             st.write(f"- {trend}")
 
-# Dropdown for selecting social media platform
-platform = st.selectbox("Select Social Media Platform", ["X", "Instagram", "Facebook", "LinkedIn"])
-generate_post_button = st.button("Generate Post")
+
        
