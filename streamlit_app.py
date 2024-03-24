@@ -20,15 +20,18 @@ with st.sidebar:
     # Dropdown for selecting social media platform
     platform = st.selectbox("Select Social Media Platform", ["X", "Instagram", "Facebook", "LinkedIn"])
     generate_post_button = st.button("Generate Post")
+    
+# Function to fetch top 3 trends for the selected region using Gemini
+def get_top_trends(region):
+    try:
+        prompt = f"Show top 3 trends in {region} which people are searching for, get data from the google trends"
+        response = model.generate_content(prompt)
+        top_trends = [trend.content.parts[0].text for trend in response.candidates]
+        return top_trends
+    except Exception as e:
+        st.error(f"Error fetching trends: {e}")
+        return []
 
-
-# Fetch and display top 3 trends for the selected region
-if show_trends_button:
-    top_trends = get_top_trends(region)
-    if top_trends:
-        st.write("Top 3 Trends:")
-        for trend in top_trends:
-            st.write(f"- {trend}")
 
 
        
