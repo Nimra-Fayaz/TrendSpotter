@@ -6,13 +6,16 @@ import subprocess
 from pytrends.request import TrendReq
 from pytrends.exceptions import ResponseError
 
+# Set page layout configuration
+st.set_page_config(layout="wide")
+
 # Variables for trends and platforms
 Trends = ['Trend 1', 'Trend 2', 'Trend 3']
 Trend_values = [0, 0, 0]
 platforms_list = ["Twitter", "Facebook", "Instagram", "LinkedIn"]
 
 # Set up Google Generative AI client
-genai.configure(api_key="YOUR_GOOGLE_API_KEY")  # Replace with your actual API key
+genai.configure(api_key="AIzaSyBZo_OCHYHslSXuwtaPNjLavGnfQaZ4kd0")  # Replace with your actual API key
 model = genai.GenerativeModel('gemini-1.0-pro-latest')
 
 # Set up Google Trends
@@ -66,8 +69,6 @@ def show_trends(region):
             st.write(f"- {trend}")
     except ResponseError as e:
         st.error(f"Error fetching trends: {e}")
-
-st.set_page_config(layout="wide")
 
 # Assuming the UI has a sidebar for filters
 with st.sidebar:
