@@ -6,7 +6,7 @@ st.set_page_config(layout="wide")
 
 # Set up Google Generative AI client
 genai.configure(api_key="AIzaSyBZo_OCHYHslSXuwtaPNjLavGnfQaZ4kd0")  # Replace YOUR_API_KEY with your actual API key
-model = genai.GenerativeModel('gemini-1.0-pro-latest')
+model = genai.GenerativeModel('gemini-1.0-pro-001')
 
 # Function to fetch top 3 trends for the selected region using Gemini
 def get_top_trends(region):
@@ -15,7 +15,7 @@ def get_top_trends(region):
         prompt = f"Show top 3 trends in {region}"
         
         # Generate text using Gemini
-        top_trends = model.generate_text(prompt)
+        top_trends = model(prompt)
         
         # Extract top trends from the response
         trends = top_trends.split('\n')
@@ -32,7 +32,7 @@ def generate_social_media_post(trend, platform):
         prompt = f"Write an educational and attractive social media post about '{trend}' for {platform} using proper hashtags."
         
         # Generate text using Gemini
-        post = model.generate_text(prompt)
+        post = model(prompt)
         
         return post
     except Exception as e:
