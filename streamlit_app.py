@@ -1,6 +1,10 @@
+import pathlib
+import textwrap
+import google.generativeai as genai
+from IPython.display import display
+from IPython.display import Markdown
 import streamlit as st
 import subprocess
-import google.generativeai as genai
 from pytrends.request import TrendReq
 
 # Variables for trends, countries, and platforms
