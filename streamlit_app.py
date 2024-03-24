@@ -6,7 +6,8 @@ st.set_page_config(layout="wide")
 
 # Set up Google Generative AI client
 genai.configure(api_key="AIzaSyBCL92zWhFPocMHLd2Df2KSPbKWCRCYTSQ") 
-model = genai.GenerativeModel('gemini-1.0-pro')
+model = genai.GenerativeModel('gemini-1.3-pro-latest')
+print(dir(model))
 
 # Function to fetch top 3 trends for the selected region using Gemini
 def get_top_trends(region):
