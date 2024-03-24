@@ -5,7 +5,7 @@ import google.generativeai as genai
 st.set_page_config(layout="wide")
 
 # Set up Google Generative AI client
-genai.configure(api_key="YOUR_API_KEY")  # Replace YOUR_API_KEY with your actual API key
+genai.configure(api_key="AIzaSyBZo_OCHYHslSXuwtaPNjLavGnfQaZ4kd0")  # Replace YOUR_API_KEY with your actual API key
 model = genai.GenerativeModel('gemini-1.0-pro-latest')
 
 # Function to fetch top 3 trends for the selected region using Gemini
@@ -15,7 +15,7 @@ def get_top_trends(region):
         prompt = f"Show top 3 trends in {region}"
         
         # Generate text using Gemini
-        top_trends = model.generate_text(prompt, max_tokens=50, temperature=0.7)
+        top_trends = model(prompt, max_length=50, temperature=0.7)
         
         # Split the generated text into separate trends
         trends_list = top_trends.split("\n")
@@ -44,7 +44,7 @@ if show_trends_button:
 
 # Right column for content of posts
 st.header("Generate Post")
-if 'top_trends' in locals():
+if "top_trends" in locals():
     selected_trend = st.selectbox("Select Trend", top_trends)
     selected_platform = st.selectbox("Select Platform", ["Twitter", "Facebook", "Instagram", "LinkedIn"])
     button = st.button("Generate Post")
@@ -52,7 +52,7 @@ if 'top_trends' in locals():
         try:
             # Generate a post based on the selected trend and platform using Gemini
             post_prompt = f"Write a social media post with relevant hashtags about the trending topic '{selected_trend}' for {selected_platform}"
-            post_text = model.generate_text(post_prompt, max_tokens=100, temperature=0.7)
+            post_text = model(post_prompt, max_length=100, temperature=0.7)
             st.markdown(f"**{selected_platform}**")
             st.markdown(post_text)
         except Exception as e:
