@@ -4,7 +4,7 @@ import requests
 import google.generativeai as genai
 
 #AI Model
-genai.configure(api_key="API_KEY")
+genai.configure(api_key="AIzaSyBZo_OCHYHslSXuwtaPNjLavGnfQaZ4kd0")
 model = genai.GenerativeModel('gemini-1.0-pro-latest')
 
 #Scraping function
@@ -35,6 +35,6 @@ selected_trend = st.selectbox("Trend", trends)
 
 if st.button("Generate Posts"):
   for platform in platforms:
-    prompt = f"Write a post about trend '{selected_trend}' for {platform}"
+    prompt = f"Write an educational social media post about trend '{selected_trend}' for {platform}"
     post = model.generate_text(prompt)
     st.write(post)
