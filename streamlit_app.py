@@ -62,6 +62,7 @@ if generate_post_button:
         if posts:
             st.write("Generated Posts:")
             for index, post in enumerate(posts, start=1):
+                st.write(f"Post {index}:")
                 st.write(post)
     else:
         st.warning("Please show trends first before generating posts.")
