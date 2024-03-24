@@ -12,7 +12,7 @@ model = genai.GenerativeModel('gemini-1.0-pro')
 def get_top_trends(region):
     try:
         prompt = f"Show top 3 trends in {region} which people are searching for, get data from the google trends"
-        response = model(prompt)
+        response = model.generate_content(prompt)
         top_trends = [trend["content"]["parts"][0]["text"] for trend in response.candidates]
         return top_trends
     except Exception as e:
