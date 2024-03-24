@@ -38,6 +38,9 @@ def get_top_trends(region):
         response = model.generate_content(prompt)
         top_trends = [trend.content.parts[0].text for trend in response.candidates]
         return top_trends
+    except Exception as e:
+        st.error(f"Error fetching trends: {e}")
+        return []
     
 
 
