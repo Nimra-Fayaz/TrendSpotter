@@ -9,6 +9,7 @@ genai.configure(api_key="AIzaSyBCL92zWhFPocMHLd2Df2KSPbKWCRCYTSQ")
 model = genai.GenerativeModel('gemini-1.0-pro')
 
 # Function to fetch top 3 trends for the selected region using Gemini
+@st.cache
 def get_top_trends(region):
     try:
         prompt = f"Show top 3 trends in {region} which people are searching for, get data from the google trends"
@@ -56,13 +57,10 @@ if show_trends_button:
 
 # Generate social media posts for the selected platform
 if generate_post_button:
-    if "top_trends" in locals():
-        if top_trends:
-            posts = generate_social_media_post(top_trends, platform)
-            if posts:
-                st.write("Generated Posts:")
-                for index, post in enumerate(posts, start=1):
-                    st.write(f"Post {index}:")
-                    st.write(post)
-    else:
-        st.warning("Please show trends first before generating posts.")
+    if top_trends:
+        posts = generate_social_media_post(top_trends, platform)
+        if posts:
+            st.write("Generated Posts:")
+            for index, post in enumerate(posts, start=1):
+                st.write(f"Post {index}:")
+                st.write(post)
