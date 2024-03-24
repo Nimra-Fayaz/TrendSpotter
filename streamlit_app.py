@@ -52,13 +52,14 @@ with st.sidebar:
     st.title("Filters")
     region = st.selectbox("Select Region", ["Worldwide", "United States", "United Kingdom", "India"])
     show_trends_button = st.button("Show Trends")
-    if show_trends_button:
-        # Fetch top 3 trends for the selected region
-        top_trends = get_top_trends(region.lower())
-        if top_trends:
-            st.write(f"Top 3 Trending Topics in {region}:")
-            for trend in top_trends:
-                st.write(f"- {trend}")
+
+# Fetch top 3 trends for the selected region
+if show_trends_button:
+    top_trends = get_top_trends(region.lower())
+    if top_trends:
+        st.write(f"Top 3 Trending Topics in {region}:")
+        for trend in top_trends:
+            st.write(f"- {trend}")
 
 # Right column for content of posts
 st.header("Generate Post")
