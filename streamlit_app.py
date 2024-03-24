@@ -47,6 +47,9 @@ def get_top_trends(region):
 # Main content area
 st.title("Social Media Trends Dashboard")
 
+# Initialize top trends as an empty list
+top_trends = []
+
 # Assuming the UI has a sidebar for filters
 with st.sidebar:
     st.title("Filters")
@@ -61,18 +64,18 @@ if show_trends_button:
         for trend in top_trends:
             st.write(f"- {trend}")
 
-        # Right column for content of posts
-        st.header("Generate Post")
-        selected_trend = st.selectbox("Select Trend", top_trends)
-        selected_platform = st.selectbox("Select Platform", platforms_list)
-        button = st.button("Generate Post")
-        if button:
-            if selected_trend and selected_platform:
-                try:
-                    # Generate a post based on the selected trend and platform using Gemini
-                    post_prompt = f"Write a social media post with relevant hashtags about the trending topic '{selected_trend}' for {selected_platform}"
-                    post_text = model.generate_text(post_prompt)
-                    st.markdown(f"**{selected_platform}**")
-                    st.markdown(post_text)
-                except Exception as e:
-                    st.error(f"Error generating post: {e}")
+# Right column for content of posts
+st.header("Generate Post")
+selected_trend = st.selectbox("Select Trend", top_trends if top_trends else [])
+selected_platform = st.selectbox("Select Platform", platforms_list)
+button = st.button("Generate Post")
+if button:
+    if selected_trend and selected_platform:
+        try:
+            # Generate a post based on the selected trend and platform using Gemini
+            post_prompt = f"Write a social media post with relevant hashtags about the trending topic '{selected_trend}' for {selected_platform}"
+            post_text = model.generate_text(post_prompt)
+            st.markdown(f"**{selected_platform}**")
+            st.markdown(post_text)
+        except Exception as e:
+            st.error(f"Error generating post: {e}")
