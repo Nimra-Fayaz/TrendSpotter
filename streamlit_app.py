@@ -47,13 +47,16 @@ def get_top_trends(region):
 # Main content area
 st.title("Social Media Trends Dashboard")
 
+# Initialize top trends as an empty list
+top_trends = []
+
 # Assuming the UI has a sidebar for filters
 with st.sidebar:
     st.title("Filters")
     region = st.selectbox("Select Region", ["Worldwide", "United States", "United Kingdom", "India"])
     show_trends_button = st.button("Show Trends")
 
-# Fetch and display top 3 trends for the selected region when the button is clicked
+# Fetch top 3 trends for the selected region when the button is clicked
 if show_trends_button:
     top_trends = get_top_trends(region.lower())
     if top_trends:
@@ -63,11 +66,11 @@ if show_trends_button:
 
 # Right column for content of posts
 st.header("Generate Post")
-if top_trends:
-    selected_trend = st.selectbox("Select Trend", top_trends)
-    selected_platform = st.selectbox("Select Platform", platforms_list)
-    button = st.button("Generate Post")
-    if button:
+selected_trend = st.selectbox("Select Trend", top_trends if top_trends else [])
+selected_platform = st.selectbox("Select Platform", platforms_list)
+button = st.button("Generate Post")
+if button:
+    if selected_trend and selected_platform:
         try:
             # Generate a post based on the selected trend and platform using Gemini
             post_prompt = f"Write a social media post with relevant hashtags about the trending topic '{selected_trend}' for {selected_platform}"
