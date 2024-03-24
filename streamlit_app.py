@@ -15,12 +15,9 @@ def get_top_trends(region):
         prompt = f"Show top 3 trends in {region}"
         
         # Generate text using Gemini
-        top_trends = model.generate_content(prompt)
-        
-        # Extract top trends from the response
-        trends = top_trends.split('\n')
-        
+        trends = model.generate_content(prompt)
         return trends
+        
     except Exception as e:
         st.error(f"Error fetching trends: {e}")
         return []
