@@ -1,8 +1,6 @@
 import pathlib
 import textwrap
 import google.generativeai as genai
-from IPython.display import display
-from IPython.display import Markdown
 import streamlit as st
 import subprocess
 from pytrends.request import TrendReq
@@ -19,11 +17,6 @@ model = genai.GenerativeModel('gemini-1.0-pro-vision-latest')
 
 # Set up Google Trends
 pytrend = TrendReq()
-
-# Helper function to display text in Markdown format
-def to_markdown(text):
-    text = text.replace('•', '  *')
-    return Markdown(textwrap.indent(text, '> ', predicate=lambda _: True))
 
 # Function to generate posts with hashtags
 def generate_posts(selected_trends, country, selected_platforms):
