@@ -12,8 +12,8 @@ countries = ["Global", "USA", "India", "Others"]
 platforms_list = ["Twitter", "Facebook", "Instagram", "LinkedIn"]
 
 # Set up Google Generative AI client
-genai.configure(api_key="your_genai_api_key")
-model = genai.GenerativeModel('gemini-1.0-pro-vision-latest')
+genai.configure(api_key="AIzaSyBZo_OCHYHslSXuwtaPNjLavGnfQaZ4kd0")
+model = genai.GenerativeModel('gemini-1.0-pro-latest')
 
 # Set up Google Trends
 pytrend = TrendReq()
