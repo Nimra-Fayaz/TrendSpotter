@@ -15,12 +15,15 @@ def get_top_trends(region):
         prompt = f"Show top 3 trends in {region}"
         
         # Generate text using Gemini
-        top_trends = model(prompt, max_length=50, temperature=0.7)
+        top_trends = model.query(prompt, max_tokens=50, temperature=0.7)
         
-        # Split the generated text into separate trends
-        trends_list = top_trends.split("\n")
+        # Extract top trends from the response
+        trends_list = top_trends['output'][0]['tokens']
         
-        return trends_list
+        # Convert the tokens to a list of trends
+        trends = [' '.join(token['value'] for token in trend) for trend in trends_list]
+        
+        return trends
     except Exception as e:
         st.error(f"Error fetching trends: {e}")
         return []
@@ -44,7 +47,7 @@ if show_trends_button:
 
 # Right column for content of posts
 st.header("Generate Post")
-if "top_trends" in locals():
+if top_trends:
     selected_trend = st.selectbox("Select Trend", top_trends)
     selected_platform = st.selectbox("Select Platform", ["Twitter", "Facebook", "Instagram", "LinkedIn"])
     button = st.button("Generate Post")
@@ -52,8 +55,8 @@ if "top_trends" in locals():
         try:
             # Generate a post based on the selected trend and platform using Gemini
             post_prompt = f"Write a social media post with relevant hashtags about the trending topic '{selected_trend}' for {selected_platform}"
-            post_text = model(post_prompt, max_length=100, temperature=0.7)
+            post_text = model.query(post_prompt, max_tokens=100, temperature=0.7)
             st.markdown(f"**{selected_platform}**")
-            st.markdown(post_text)
+            st.markdown(post_text['output'][0]['text'])
         except Exception as e:
             st.error(f"Error generating post: {e}")
