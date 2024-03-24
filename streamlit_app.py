@@ -15,7 +15,7 @@ def get_top_trends(region):
         prompt = f"Show top 3 trends in {region}"
         
         # Generate text using Gemini
-        top_trends = model(prompt)
+        top_trends = model.generate_text(prompt)
         
         # Extract top trends from the response
         trends = top_trends.split('\n')
@@ -24,6 +24,20 @@ def get_top_trends(region):
     except Exception as e:
         st.error(f"Error fetching trends: {e}")
         return []
+
+# Function to generate social media post using Gemini
+def generate_social_media_post(trend, platform):
+    try:
+        # Construct a prompt to generate social media post for the selected trend and platform
+        prompt = f"Write an educational and attractive social media post about '{trend}' for {platform} using proper hashtags."
+        
+        # Generate text using Gemini
+        post = model.generate_text(prompt)
+        
+        return post
+    except Exception as e:
+        st.error(f"Error generating social media post: {e}")
+        return ""
 
 # Main content area
 st.title("Social Media Trends Dashboard")
@@ -40,7 +54,7 @@ if show_trends_button:
     if top_trends:
         selected_trend = st.selectbox("Select Trend", top_trends)
         selected_platform = st.selectbox("Select Platform", ["Twitter", "Facebook", "Instagram", "LinkedIn"])
-        generate_post_button = st.button("Generate Social Media Post")
+        generate_post_button = st.button("Generate Post")
         if generate_post_button:
             social_media_post = generate_social_media_post(selected_trend, selected_platform)
             if social_media_post:
@@ -54,18 +68,3 @@ if show_trends_button:
         st.warning("No trends found for the selected region.")
 else:
     st.info("Press the 'Show Trends' button to fetch top trends for the selected region.")
-
-
-# Function to generate social media post using Gemini
-def generate_social_media_post(trend, platform):
-    try:
-        # Construct a prompt to generate social media post for the selected trend and platform
-        prompt = f"Write an educational and attractive social media post about '{trend}' for {platform} using proper hashtags."
-        
-        # Generate text using Gemini
-        post = model(prompt)
-        
-        return post
-    except Exception as e:
-        st.error(f"Error generating social media post: {e}")
-        return ""
