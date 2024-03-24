@@ -26,7 +26,7 @@ def generate_social_media_post(trends, platform):
         posts = []
         for trend in trends:
             prompt = f"Write an educational and attractive social media post about '{trend}' individually for each trend for {platform} using proper hashtags."
-            response = model(prompt)
+            response = model.generate_content(prompt)  # Use generate_content instead of calling the model directly
             post = response.candidates[0].content.parts[0].text
             posts.append(post)
         return posts
