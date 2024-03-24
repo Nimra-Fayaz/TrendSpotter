@@ -5,7 +5,7 @@ import google.generativeai as genai
 st.set_page_config(layout="wide")
 
 # Set up Google Generative AI client
-genai.configure(api_key="AIzaSyBZo_OCHYHslSXuwtaPNjLavGnfQaZ4kd0")  # Replace YOUR_API_KEY with your actual API key
+genai.configure(api_key="YOUR_API_KEY")  # Replace YOUR_API_KEY with your actual API key
 model = genai.GenerativeModel('gemini-1.0-pro-latest')
 
 # Function to fetch top 3 trends for the selected region using Gemini
@@ -44,7 +44,7 @@ if show_trends_button:
 
 # Right column for content of posts
 st.header("Generate Post")
-if top_trends:
+if 'top_trends' in locals():
     selected_trend = st.selectbox("Select Trend", top_trends)
     selected_platform = st.selectbox("Select Platform", ["Twitter", "Facebook", "Instagram", "LinkedIn"])
     button = st.button("Generate Post")
